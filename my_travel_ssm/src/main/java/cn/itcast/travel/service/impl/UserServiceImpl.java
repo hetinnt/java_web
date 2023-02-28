@@ -9,7 +9,12 @@ import cn.itcast.travel.util.UuidUtil;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+
     /**
      * 注册用户
      * @param user

@@ -17,7 +17,10 @@ import java.util.Set;
 
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryDao categoryDao = new CategoryDaoImpl();
+    private CategoryDao categoryDao;
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
 
     /**
      * 查询分类条目.

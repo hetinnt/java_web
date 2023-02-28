@@ -4,7 +4,6 @@ import cn.itcast.travel.dao.RouteDao;
 import cn.itcast.travel.domain.Order;
 import cn.itcast.travel.domain.Price;
 import cn.itcast.travel.domain.Route;
-import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -13,8 +12,10 @@ import java.util.List;
 
 public class RouteDaoImpl implements RouteDao {
 
-    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
-
+    private JdbcTemplate template;
+    public void setTemplate(JdbcTemplate template) {
+        this.template = template;
+    }
     @Override
     public int findTotalCount(int cid, String rname, Price price) {
         //String sql = "select count(*) from tab_route where cid = ?";

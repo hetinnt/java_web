@@ -1,4 +1,8 @@
-package cn.itcast.travel.web.servlet;
+package cn.itcast.travel.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -6,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,9 +19,12 @@ import java.util.Random;
 /**
  * 验证码
  */
-@WebServlet("/checkCode")
-public class CheckCodeServlet extends HttpServlet {
-	public void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+@Controller
+@RequestMapping("/checkCode")
+public class CheckCodeController{
+
+	@RequestMapping
+	public void getCheckCode(HttpSession session, HttpServletResponse response)throws IOException {
 		
 		//服务器通知浏览器不要缓存
 		response.setHeader("pragma","no-cache");
@@ -41,7 +49,7 @@ public class CheckCodeServlet extends HttpServlet {
 		//产生4个随机验证码，12Ey
 		String checkCode = getCheckCode();
 		//将验证码放入HttpSession中
-		request.getSession().setAttribute("CHECKCODE_SERVER",checkCode);
+		session.setAttribute("CHECKCODE_SERVER",checkCode);
 		
 		//设置画笔颜色为黄色
 		g.setColor(Color.YELLOW);
@@ -73,9 +81,6 @@ public class CheckCodeServlet extends HttpServlet {
 			sb.append(c);
 		}
 		return sb.toString();
-	}
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.doGet(request,response);
 	}
 }
 

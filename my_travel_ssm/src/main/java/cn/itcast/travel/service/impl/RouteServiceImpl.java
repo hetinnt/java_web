@@ -14,10 +14,23 @@ import cn.itcast.travel.service.RouteService;
 import java.util.List;
 
 public class RouteServiceImpl implements RouteService {
-    private RouteDao routeDao = new RouteDaoImpl();
-    private RouteImgDao routeImgDao = new RouteImgDaoImpl();
-    private SellerDao sellerDao = new SellerDaoImpl();
-    private FavoriteDao favoriteDao = new FavoriteDaoImpl();
+    private RouteDao routeDao;
+    private RouteImgDao routeImgDao;
+    private SellerDao sellerDao;
+    private FavoriteDao favoriteDao;
+
+    public void setRouteDao(RouteDao routeDao) {
+        this.routeDao = routeDao;
+    }
+    public void setRouteImgDao(RouteImgDao routeImgDao) {
+        this.routeImgDao = routeImgDao;
+    }
+    public void setSellerDao(SellerDao sellerDao) {
+        this.sellerDao = sellerDao;
+    }
+    public void setFavoriteDao(FavoriteDao favoriteDao) {
+        this.favoriteDao = favoriteDao;
+    }
 
     @Override
     public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname,Order order,Price price) {

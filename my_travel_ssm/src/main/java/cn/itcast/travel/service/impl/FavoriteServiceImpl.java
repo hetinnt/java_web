@@ -14,8 +14,14 @@ import java.util.List;
 
 public class FavoriteServiceImpl implements FavoriteService {
 
-    private FavoriteDao favoriteDao = new FavoriteDaoImpl();
-    private RouteDao routeDao = new RouteDaoImpl();
+    private FavoriteDao favoriteDao;
+    private RouteDao routeDao;
+    public void setFavoriteDao(FavoriteDao favoriteDao) {
+        this.favoriteDao = favoriteDao;
+    }
+    public void setRouteDao(RouteDao routeDao) {
+        this.routeDao = routeDao;
+    }
 
     @Override
     public boolean isFavorite(String rid, int uid) {

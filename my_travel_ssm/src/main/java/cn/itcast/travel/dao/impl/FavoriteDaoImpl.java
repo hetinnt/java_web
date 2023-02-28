@@ -2,18 +2,19 @@ package cn.itcast.travel.dao.impl;
 
 import cn.itcast.travel.dao.FavoriteDao;
 import cn.itcast.travel.domain.Favorite;
-import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class FavoriteDaoImpl implements FavoriteDao {
 
-    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
+    private JdbcTemplate template;
+    public void setTemplate(JdbcTemplate template) {
+        this.template = template;
+    }
 
     @Override
     public Favorite findByRidAndUid(int rid, int uid) {

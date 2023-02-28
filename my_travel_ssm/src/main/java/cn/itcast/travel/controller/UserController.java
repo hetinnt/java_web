@@ -1,29 +1,27 @@
-package cn.itcast.travel.web.servlet;
+package cn.itcast.travel.controller;
 
 import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.UserService;
-import cn.itcast.travel.service.impl.UserServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
-@WebServlet(name = "UserServlet", value = "/user/*") //user/add user/find
-public class UserServlet extends BaseServlet {
+@Controller
+@RequestMapping("/user")
+public class UserController{
     //声明UserService业务对象
-    private UserService userService = new UserServiceImpl();
+    @Autowired
+    private UserService userService;
 
-    public ResultInfo checkcode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    public ResultInfo checkcode(HttpSession session, String check){
         //验证校验
-        String check = request.getParameter("check");
         //从sesion中获取验证码
-        HttpSession session = request.getSession();
         String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
         session.removeAttribute("CHECKCODE_SERVER");//为了验证码只能使用一次
         ResultInfo info = new ResultInfo();
@@ -39,27 +37,17 @@ public class UserServlet extends BaseServlet {
         return info;
     }
 
-    public void regist(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ResultInfo checkcode = checkcode(request, response);
+    @RequestMapping("/regist")
+    @ResponseBody
+    public ResultInfo regist(User user, HttpSession session,String check){
+        ResultInfo checkcode = checkcode(session,check);
         if(!checkcode.isFlag()){
             //将info对象序列化为json
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(checkcode);
-            response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(json);
-            return;
+            return checkcode;
         }
+
         //1.获取数据
-        Map<String, String[]> map = request.getParameterMap();
-        //2.封装对象
-        User user =new User();
-        try {
-            BeanUtils.populate(user,map);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+
         //3.调用service完成注册
         //UserService userService = new UserServiceImpl();
         boolean flag = userService.regist(user);
@@ -75,31 +63,21 @@ public class UserServlet extends BaseServlet {
         }
 
         //将info对象序列化为json并写回客户端
-        writeValue(info,response);
+        return info;
     }
 
-    public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ResultInfo checkcode = checkcode(request, response);
+    @RequestMapping("/login")
+    @ResponseBody
+    public ResultInfo login(User user, HttpSession session,String check){
+        ResultInfo checkcode = checkcode(session,check);
         if(!checkcode.isFlag()){
             //将info对象序列化为json
-            writeValue(checkcode,response);
-            return;
+            return checkcode;
         }
 
         //1.获取用户名和密码数据
-        Map<String, String[]> map = request.getParameterMap();
-        //2.封装user对象
-        User user = new User();
-        try {
-            BeanUtils.populate(user,map);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
 
         //3.调用service查询
-        //UserService service = new UserServiceImpl();
         User u = userService.login(user);
 
         ResultInfo info = new ResultInfo();
@@ -118,18 +96,20 @@ public class UserServlet extends BaseServlet {
         }
         //6.判断登录成功
         if(u != null && "Y".equals(u.getStatus())){
-            request.getSession().setAttribute("user",u);//登录成功标记
+            session.setAttribute("user",u);//登录成功标记
             //登录成功
             info.setFlag(true);
         }
 
         //响应数据
-        writeValue(info,response);
+        return checkcode;
     }
 
-    public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    @RequestMapping("/findOne")
+    @ResponseBody
+    public ResultInfo findOne(HttpSession session){
         //从session中获取登录用户
-        Object user = request.getSession().getAttribute("user");
+        Object user = session.getAttribute("user");
         ResultInfo info = new ResultInfo();
         if(user == null){
             info.setFlag(false);
@@ -138,20 +118,21 @@ public class UserServlet extends BaseServlet {
             info.setData(user);
         }
         //将user写回客户端
-        writeValue(info,response);
+        return info;
     }
 
-    public void exit(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    @RequestMapping("/exit")
+    public String exit(HttpSession session){
         //1.销毁session
-        request.getSession().invalidate();
+        session.invalidate();
 
         //2.跳转登录页面
-        response.sendRedirect(request.getContextPath()+"/login.html");
+        return "redirect:/index.html";
     }
 
-    public void active(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    @RequestMapping("/active")
+    public void active(String code, HttpServletResponse response) throws IOException{
         //获取激活码
-        String code = request.getParameter("code");
         if(code != null){
             //2.调用service完成激活
             //UserService service = new UserServiceImpl();
