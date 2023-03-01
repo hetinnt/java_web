@@ -10,27 +10,21 @@ import cn.itcast.travel.dao.impl.RouteImgDaoImpl;
 import cn.itcast.travel.dao.impl.SellerDaoImpl;
 import cn.itcast.travel.domain.*;
 import cn.itcast.travel.service.RouteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("routeService")
 public class RouteServiceImpl implements RouteService {
+    @Autowired
     private RouteDao routeDao;
+    @Autowired
     private RouteImgDao routeImgDao;
+    @Autowired
     private SellerDao sellerDao;
+    @Autowired
     private FavoriteDao favoriteDao;
-
-    public void setRouteDao(RouteDao routeDao) {
-        this.routeDao = routeDao;
-    }
-    public void setRouteImgDao(RouteImgDao routeImgDao) {
-        this.routeImgDao = routeImgDao;
-    }
-    public void setSellerDao(SellerDao sellerDao) {
-        this.sellerDao = sellerDao;
-    }
-    public void setFavoriteDao(FavoriteDao favoriteDao) {
-        this.favoriteDao = favoriteDao;
-    }
 
     @Override
     public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname,Order order,Price price) {

@@ -5,6 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--组件扫描 扫描service和mapper-->
+    <context:component-scan base-package="cn.itcast.travel">
+        <!--排除controller的扫描-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
+    </context:component-scan>
+
     <!--1、加载jdbc.properties-->
     <context:property-placeholder location="classpath:druid.properties"/>
 
@@ -25,42 +31,8 @@
     </bean>
 
     <!--配置dao层对象-->
-    <bean id="categoryDao" class="cn.itcast.travel.dao.impl.CategoryDaoImpl">
-        <property name="template" ref="template"/>
-    </bean>
-    <bean id="favoriteDao" class="cn.itcast.travel.dao.impl.FavoriteDaoImpl">
-        <property name="template" ref="template"/>
-    </bean>
-    <bean id="userDao" class="cn.itcast.travel.dao.impl.UserDaoImpl">
-        <property name="template" ref="template"/>
-    </bean>
-    <bean id="routeDao" class="cn.itcast.travel.dao.impl.RouteDaoImpl">
-        <property name="template" ref="template"/>
-    </bean>
-    <bean id="routeImgDao" class="cn.itcast.travel.dao.impl.RouteImgDaoImpl">
-        <property name="template" ref="template"/>
-    </bean>
-    <bean id="sellerDao" class="cn.itcast.travel.dao.impl.SellerDaoImpl">
-        <property name="template" ref="template"/>
-    </bean>
 
     <!--配置service层对象-->
-    <bean id="categoryService" class="cn.itcast.travel.service.impl.CategoryServiceImpl">
-        <property name="categoryDao" ref="categoryDao"/>
-    </bean>
-    <bean id="favoriteService" class="cn.itcast.travel.service.impl.FavoriteServiceImpl">
-        <property name="favoriteDao" ref="favoriteDao"/>
-        <property name="routeDao" ref="routeDao"/>
-    </bean>
-    <bean id="routeService" class="cn.itcast.travel.service.impl.RouteServiceImpl">
-        <property name="favoriteDao" ref="favoriteDao"/>
-        <property name="sellerDao" ref="sellerDao"/>
-        <property name="routeImgDao" ref="routeImgDao"/>
-        <property name="routeDao" ref="routeDao"/>
-    </bean>
-    <bean id="userService" class="cn.itcast.travel.service.impl.UserServiceImpl">
-        <property name="userDao" ref="userDao"/>
-    </bean>
 
 
 </beans>

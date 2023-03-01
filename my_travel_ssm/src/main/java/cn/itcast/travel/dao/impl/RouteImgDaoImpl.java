@@ -2,17 +2,19 @@ package cn.itcast.travel.dao.impl;
 
 import cn.itcast.travel.dao.RouteImgDao;
 import cn.itcast.travel.domain.RouteImg;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("routeImgDao")
 public class RouteImgDaoImpl implements RouteImgDao {
 
+    @Autowired
     private JdbcTemplate template;
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
-    }
+
     @Override
     public List<RouteImg> findByRid(int rid) {
         String sql = "select * from tab_route_img where rid = ? ";

@@ -2,16 +2,17 @@ package cn.itcast.travel.dao.impl;
 
 import cn.itcast.travel.dao.UserDao;
 import cn.itcast.travel.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository("userDao")
 public class UserDaoImpl implements UserDao {
 
+    @Autowired
     private JdbcTemplate template;
-    public void setTemplate(JdbcTemplate template) {
-        this.template = template;
-    }
 
     @Override
     public User findByUsername(String username) {

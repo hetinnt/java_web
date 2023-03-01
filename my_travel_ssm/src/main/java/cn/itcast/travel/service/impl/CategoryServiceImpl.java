@@ -7,6 +7,8 @@ import cn.itcast.travel.service.CategoryService;
 import cn.itcast.travel.util.JedisUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
@@ -15,12 +17,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
 
+    @Autowired
     private CategoryDao categoryDao;
-    public void setCategoryDao(CategoryDao categoryDao) {
-        this.categoryDao = categoryDao;
-    }
 
     /**
      * 查询分类条目.

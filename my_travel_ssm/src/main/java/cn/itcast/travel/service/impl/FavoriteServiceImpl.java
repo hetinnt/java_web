@@ -8,20 +8,19 @@ import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.Route;
 import cn.itcast.travel.service.FavoriteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("favoriteService")
 public class FavoriteServiceImpl implements FavoriteService {
 
+    @Autowired
     private FavoriteDao favoriteDao;
+    @Autowired
     private RouteDao routeDao;
-    public void setFavoriteDao(FavoriteDao favoriteDao) {
-        this.favoriteDao = favoriteDao;
-    }
-    public void setRouteDao(RouteDao routeDao) {
-        this.routeDao = routeDao;
-    }
 
     @Override
     public boolean isFavorite(String rid, int uid) {
