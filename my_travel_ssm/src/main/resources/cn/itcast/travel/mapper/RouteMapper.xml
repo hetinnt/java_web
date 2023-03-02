@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.itcast.travel.mapper.RouteMapper">
+    <select id="findTotalCount" resultType="int">
+        select count(*) from tab_route
+        <where>
+            <if test="cid != 0">
+                and cid = #{cid}
+            </if>
+            <if test="rname != null and rname.length()>0 and ! 'null'.equals(rname)">
+                and rname like #{rname}
+            </if>
+            <if test="price != null">
+                and price between #{price.lowprice} and #{price.highprice}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByPage" resultType="route">
+        select * from tab_route
+        <where>
+            <if test="cid != 0">
+                and cid = #{cid}
+            </if>
+            <if test="rname != null and rname.length()>0 and !'null'.equals(rname)">
+                and rname like concat('%',#{rname,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="price != null">
+                and price between #{price.lowprice} and #{price.highprice}
+            </if>
+            <if test="order != null">
+                order by #{order.type} #{order.a_d}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByRid" resultType="route" parameterType="int">
+        select * from tab_route where rid = #{rid}
+    </select>
+
+    <update id="updateCount">
+        update tab_route set count = count + #{update_count} where rid = #{rid}
+    </update>
+
+</mapper>

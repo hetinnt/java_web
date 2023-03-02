@@ -1,0 +1,40 @@
+package cn.itcast.travel.mapper;
+
+import cn.itcast.travel.domain.User;
+import org.apache.ibatis.annotations.Param;
+
+public interface UserMapper {
+    /**
+     * 根据用户名查询用户信息
+     * @param username
+     * @return
+     */
+    public User findByUsername(String username);
+
+    /**
+     * 用户保存
+     * @param user
+     */
+    public void save(User user);
+
+    /**
+     * 根据激活码查询用户对象
+     * @param code
+     * @return
+     */
+    User findByCode(String code);
+
+    /**
+     * 修改指定用户激活状态
+     * @param user
+     */
+    void updateStatus(User user);
+
+    /**
+     * 查找用户名密码相同的user
+     * @param username
+     * @param password
+     * @return
+     */
+    User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+}
