@@ -49,7 +49,7 @@ public class UserController{
         //1.获取数据
 
         //3.调用service完成注册
-        //UserService userService = new UserServiceImpl();
+        //UserMapper userService = new UserServiceImpl();
         boolean flag = userService.regist(user);
         ResultInfo info = new ResultInfo();
         //4.响应结果
@@ -135,7 +135,7 @@ public class UserController{
         //获取激活码
         if(code != null){
             //2.调用service完成激活
-            //UserService service = new UserServiceImpl();
+            //UserMapper service = new UserServiceImpl();
             boolean flag = userService.active(code);
 
             //3.判断标记

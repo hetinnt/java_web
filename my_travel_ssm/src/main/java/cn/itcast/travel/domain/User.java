@@ -23,6 +23,10 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(int uid) {
+        this.uid = uid;
+    }
+
     /**
      * 有参构方法
      * @param uid

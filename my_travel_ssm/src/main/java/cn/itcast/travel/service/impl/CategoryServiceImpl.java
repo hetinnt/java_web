@@ -1,8 +1,8 @@
 package cn.itcast.travel.service.impl;
 
 import cn.itcast.travel.dao.CategoryDao;
-import cn.itcast.travel.dao.impl.CategoryDaoImpl;
 import cn.itcast.travel.domain.Category;
+import cn.itcast.travel.mapper.CategoryMapper;
 import cn.itcast.travel.service.CategoryService;
 import cn.itcast.travel.util.JedisUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,7 +21,7 @@ import java.util.Set;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryMapper categoryMapper;
 
     /**
      * 查询分类条目.
@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
             System.out.println("从数据库查询....");
             //3.如果为空，需要从数据库查询，在将数据存入redis 
             //3.1从数据库查询
-             cs = categoryDao.findAll();
+             cs = categoryMapper.findAll();
              //3.2将集合数据存储到redis中的 category的key
             for (int i = 0; i < cs.size(); i++) {
                 jedis.zadd("category",cs.get(i).getCid(),cs.get(i).getCname());
@@ -84,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
             //redis中没有数据
             System.out.println("redis中没数据，查询数据库...");
             //2.1从数据中查询
-            List<Category> cs = categoryDao.findAll();
+            List<Category> cs = categoryMapper.findAll();
             //2.2将list序列化为json
             ObjectMapper mapper = new ObjectMapper();
             try {

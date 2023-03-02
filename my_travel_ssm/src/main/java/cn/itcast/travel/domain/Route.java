@@ -32,6 +32,10 @@ public class Route implements Serializable {
      */
     public Route(){}
 
+    public Route(int rid) {
+        this.rid = rid;
+    }
+
     /**
      * 有参构造方法
      * @param rid

@@ -41,28 +41,13 @@
 
                     //1分页工具条显示
                     //1.1 展示总页码和总记录数
-                    $("#totalPage").html(pb.totalPage);
-                    $("#totalCount").html(pb.totalCount);
-                    /*
-                    <li><a href="">首页</a></li>
-                    <li class="threeword"><a href="#">上一页</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
-                    <li class="threeword"><a href="javascript:;">下一页</a></li>
-                    <li class="threeword"><a href="javascript:;">末页</a></li>
-                    */
+                    $("#totalPage").html(pb.pages);
+                    $("#totalCount").html(pb.total);
+
                     var lis="";
                     var firstPage = ' <li onclick="javascript:load('+cid+',1,\''+rname+'\',\''+order+'\',\''+priceRange+'\')" class="threeword"><a href="javascript:void(0)">首页</a></li>';
                     //计算上一页页码
-                    var beforeNum = (pb.currentPage <= 1) ? 1 : (pb.currentPage - 1);
+                    var beforeNum = (pb.prepage == 0) ? pb.pageNum : pb.prepage;
                     var beforePage = ' <li onclick="javascript:load('+cid+','+beforeNum+',\''+rname+'\',\''+order+'\',\''+priceRange+'\')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
                     lis += firstPage;
                     lis += beforePage;
@@ -78,15 +63,15 @@
                     var end ; //  结束位置
 
                     //1.要显示10个页码
-                    if(pb.totalPage < 10){
+                    if(pb.pages < 10){
                         //总页码不够10页
                         begin = 1;
-                        end = pb.totalPage;
+                        end = pb.pages;
                     }else{
                         //总页码超过10页
 
-                        begin = pb.currentPage - 5 ;
-                        end = pb.currentPage + 4 ;
+                        begin = pb.pageNum - 5 ;
+                        end = pb.pageNum + 4 ;
 
                         //2.如果前边不够5个，后边补齐10个
                         if(begin < 1){
@@ -95,8 +80,8 @@
                         }
 
                         //3.如果后边不足4个，前边补齐10个
-                        if(end > pb.totalPage){
-                            end = pb.totalPage;
+                        if(end > pb.pages){
+                            end = pb.pages;
                             begin = end - 9 ;
                         }
                     }
@@ -105,7 +90,7 @@
                     for (var i = begin; i <= end ; i++) {
                         var li;
                         //判断当前页码是否等于i
-                        if(pb.currentPage == i){
+                        if(pb.pageNum == i){
 
                             li = '<li class="curPage" onclick="javascipt:load('+cid+','+i+',\''+rname+'\',\''+order+'\',\''+priceRange+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
 
@@ -117,9 +102,9 @@
                         lis += li;
                     }
 
-                    var nextNum = (pb.currentPage == pb.totalPage) ? pb.totalPage : (pb.currentPage +1);
+                    var nextNum = (pb.nextPage == 0) ? pb.pageNum : pb.nextPage;
                     var nextPage = '<li onclick="javascript:load('+cid+','+nextNum+',\''+rname+'\',\''+order+'\',\''+priceRange+'\')" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
-                    var lastPage = '<li onclick="javascript:load('+cid+','+pb.totalPage+',\''+rname+'\',\''+order+'\',\''+priceRange+'\')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+                    var lastPage = '<li onclick="javascript:load('+cid+','+pb.pages+',\''+rname+'\',\''+order+'\',\''+priceRange+'\')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
 
                     lis += nextPage;
                     lis += lastPage;

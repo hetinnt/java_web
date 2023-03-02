@@ -3,6 +3,7 @@ package cn.itcast.travel.controller;
 import cn.itcast.travel.domain.*;
 import cn.itcast.travel.service.FavoriteService;
 import cn.itcast.travel.service.RouteService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class RouteController{
      */
     @RequestMapping("/pageQuery")
     @ResponseBody
-    public PageBean<Route> pageQuery(HttpServletRequest request) throws IOException {
+    public PageInfo<Route> pageQuery(HttpServletRequest request) throws IOException {
         //1.接受参数
         String currentPageStr = request.getParameter("currentPage");
         String pageSizeStr = request.getParameter("pageSize");
@@ -71,7 +72,7 @@ public class RouteController{
         }
 
         //3.调用service查询PageBean对象
-        PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname,order,price);
+        PageInfo<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname,order,price);
         //4.将PageBean对象序列化为json，返回
         return pb;
     }
@@ -145,7 +146,7 @@ public class RouteController{
 
     @RequestMapping("/findUserFavorite")
     @ResponseBody
-    public PageBean<Route> findUserFavorite(@RequestParam(value="currentPage",required = false,defaultValue = "1")String currentPageStr,
+    public PageInfo<Route> findUserFavorite(@RequestParam(value="currentPage",required = false,defaultValue = "1")String currentPageStr,
                                             @RequestParam(value="pageSize",required = false,defaultValue = "5")String pageSizeStr, HttpSession session) throws IOException{
         //1.接受参数
 
@@ -169,7 +170,7 @@ public class RouteController{
             uid = user.getUid();
         }
 
-        PageBean<Route> pb= favoriteService.findFavoriteRoute(uid,currentPage,pageSize);
+        PageInfo<Route> pb= favoriteService.findFavoriteRoute(uid,currentPage,pageSize);
         return pb;
     }
 }

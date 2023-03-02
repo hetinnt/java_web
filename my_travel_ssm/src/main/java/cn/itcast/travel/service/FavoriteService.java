@@ -1,9 +1,7 @@
 package cn.itcast.travel.service;
 
-import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.Route;
-
-import java.util.List;
+import com.github.pagehelper.PageInfo;
 
 public interface FavoriteService {
 
@@ -27,5 +25,5 @@ public interface FavoriteService {
      * @param uid
      * @return
      */
-    PageBean<Route> findFavoriteRoute(int uid,int currentPage, int pageSize);
+    PageInfo<Route> findFavoriteRoute(int uid, int currentPage, int pageSize);
 }

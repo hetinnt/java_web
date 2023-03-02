@@ -1,9 +1,10 @@
 package cn.itcast.travel.service;
 
+import cn.itcast.travel.domain.Category;
 import cn.itcast.travel.domain.Order;
-import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.Price;
 import cn.itcast.travel.domain.Route;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 线路Service
@@ -16,7 +17,7 @@ public interface RouteService {
      * @param pageSize
      * @return
      */
-    public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname, Order order, Price price);
+    public PageInfo<Route> pageQuery(int cid, int currentPage, int pageSize, String rname, Order order, Price price);
 
     /**
      * 根据rid查询对应路线
