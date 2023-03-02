@@ -17,7 +17,7 @@ public interface RouteService {
      * @param pageSize
      * @return
      */
-    public PageInfo<Route> pageQuery(int cid, int currentPage, int pageSize, String rname, Order order, Price price);
+    public PageInfo<Route> pageQuery(int cid, int currentPage, int pageSize, String rname, String orderby, Price price,String order);
 
     /**
      * 根据rid查询对应路线

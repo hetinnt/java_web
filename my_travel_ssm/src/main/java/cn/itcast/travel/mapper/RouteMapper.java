@@ -16,7 +16,7 @@ public interface RouteMapper {
     /**
      * 根据cid，start，pageSize查询当前页数据集合
      */
-    public List<Route> findByPage(@Param("cid")int cid,  @Param("rname")String rname, @Param("order") Order order, @Param("price")Price price);
+    public List<Route> findByPage(@Param("cid")int cid,  @Param("rname")String rname, @Param("price")Price price);
 
     /**
      * 根据rid查询指定线路

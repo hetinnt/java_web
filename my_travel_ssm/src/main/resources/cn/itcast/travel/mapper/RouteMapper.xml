@@ -31,9 +31,6 @@
             <if test="price != null">
                 and price between #{price.lowprice} and #{price.highprice}
             </if>
-            <if test="order != null">
-                order by #{order.type} #{order.a_d}
-            </if>
         </where>
     </select>
 

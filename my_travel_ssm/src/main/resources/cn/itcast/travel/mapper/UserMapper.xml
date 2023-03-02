@@ -11,7 +11,7 @@
         select * from tab_user where code = #{code}
     </select>
     <select id="findByUsernameAndPassword" resultType="user">
-        select * from tab_user where username = {#username} and password = #{password}
+        select * from tab_user where username = #{username} and password = #{password}
     </select>
 
     <insert id="save" parameterType="user">

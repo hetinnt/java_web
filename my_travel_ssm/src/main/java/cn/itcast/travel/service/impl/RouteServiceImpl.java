@@ -7,9 +7,11 @@ import cn.itcast.travel.mapper.SellerMapper;
 import cn.itcast.travel.service.RouteService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service("routeService")
@@ -22,15 +24,24 @@ public class RouteServiceImpl implements RouteService {
     private SellerMapper sellerMapper;
 
     @Override
-    public PageInfo<Route> pageQuery(int cid, int currentPage, int pageSize, String rname,Order order,Price price) {
+    public PageInfo<Route> pageQuery(int cid, int currentPage, int pageSize, String rname,String orderBy,Price price,String order) {
+
+        // 只允许指定的排序字段和排序方式，防止SQL注入
+        String[] orderByArr = {"count","price"};
+        String orderByStr = "";
+        if (StringUtils.isNotEmpty(orderBy) && Arrays.asList(orderByArr).contains(orderBy.toLowerCase())) {
+            orderByStr = String.format("%s %s", orderBy.toLowerCase(), "asc".equalsIgnoreCase(order) ? "asc" : "desc");
+        } else {
+            // 默认排序
+            orderByStr = "count desc";
+        }
 
         //设置分页相关参数   当前页+每页显示的条数
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage,pageSize,orderByStr);
 
         //设置当前显示的数据集合
         int start = (currentPage-1)*pageSize;//开始的记录数
-        List<Route> routeList = routeMapper.findByPage(cid,rname,order,price);
-
+        List<Route> routeList = routeMapper.findByPage(cid,rname,price);
 
         //获得与分页相关参数
         PageInfo<Route> pageInfo = new PageInfo<Route>(routeList);

@@ -55,12 +55,12 @@ public class RouteController{
             pageSize = Integer.parseInt(pageSizeStr);
         }
 
-        Order order = null;
+        String orderby="";
+        String order = "";
         if(orderStr != null && orderStr.length()>0 && !"null".equals(orderStr)){
-            order = new Order();
             String[] s = orderStr.split("_");
-            order.setType(s[0]);
-            order.setA_d(s[1]);
+            orderby = s[0];
+            order = s[1];
         }
 
         Price price = null;
@@ -72,7 +72,7 @@ public class RouteController{
         }
 
         //3.调用service查询PageBean对象
-        PageInfo<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname,order,price);
+        PageInfo<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname,orderby,price,order);
         //4.将PageBean对象序列化为json，返回
         return pb;
     }
