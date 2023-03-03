@@ -17,6 +17,6 @@
     </select>
 
     <insert id="add" parameterType="favorite">
-        insert into tab_favorite values(#{favorite.route.rid},#{date},#{favorite.user.uid})
+        insert into tab_favorite values(#{route.rid},#{date},#{user.uid})
     </insert>
 </mapper>

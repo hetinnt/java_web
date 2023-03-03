@@ -1,13 +1,14 @@
 package cn.itcast.travel.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 收藏实体类
  */
 public class Favorite implements Serializable {
     private Route route;//旅游线路对象
-    private String date;//收藏时间
+    private Date date;//收藏时间
     private User user;//所属用户
 
     /**
@@ -22,7 +23,7 @@ public class Favorite implements Serializable {
      * @param date
      * @param user
      */
-    public Favorite(Route route, String date, User user) {
+    public Favorite(Route route, Date date, User user) {
             this.route = route;
             this.date = date;
             this.user = user;
@@ -36,11 +37,11 @@ public class Favorite implements Serializable {
         this.route = route;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

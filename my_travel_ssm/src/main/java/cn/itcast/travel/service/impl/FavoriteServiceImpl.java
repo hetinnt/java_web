@@ -35,7 +35,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     public void add(String rid, int uid) {
         //收藏记录加入favorite表
         Favorite favorite =new Favorite();
-        favorite.setDate(new Date().toString());
+        favorite.setDate(new Date());
         favorite.setUser(new User(uid));
         favorite.setRoute(new Route(Integer.parseInt(rid)));
         favoriteMapper.add(favorite);
