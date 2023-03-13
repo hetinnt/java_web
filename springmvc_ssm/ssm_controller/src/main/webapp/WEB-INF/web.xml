@@ -7,7 +7,7 @@
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:applicationContext.xml</param-value>
+    <param-value>classpath*:applicationContext-*.xml</param-value>
   </context-param>
 
   <!--启动服务器时，通过监听器加载spring运行环境-->
